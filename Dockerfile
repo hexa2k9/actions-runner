@@ -13,6 +13,10 @@ RUN export WANTED_PLATFORM=$(echo ${TARGETPLATFORM} | sed 's#/#_#') \
     && rm -f docker-credential-gcr.tar.gz \
     && docker-credential-gcr configure-docker --include-artifact-registry
 
+RUN apt-get update \
+    && apt-get install -y libxmlrpc-epi0 \
+    && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
+
 RUN echo "root ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers \
     && echo "%sudo ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers \
     && echo "Defaults env_keep += \"DEBIAN_FRONTEND\"" >> /etc/sudoers
