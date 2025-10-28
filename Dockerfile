@@ -2,6 +2,8 @@ FROM ghcr.io/actions/actions-runner:2.329.0
 
 ARG TARGETPLATFORM
 
+ENV NODE_OPTIONS="--no-deprecation"
+
 USER root
 
 ENV CRED_HELPER_VERSION=2.1.30
