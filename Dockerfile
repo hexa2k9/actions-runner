@@ -25,9 +25,18 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
     && mkdir -p -m 755 /etc/apt/sources.list.d \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list
 
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+
 RUN add-apt-repository ppa:apt-fast/stable \
     && apt-get update \
-    && apt-get install -y apt-fast gh libxmlrpc-epi0 \
+    && apt-get install -y \
+        apt-fast \
+        gh \
+        kubectl \
+        google-cloud-cli \
+        google-cloud-sdk-gke-gcloud-auth-plugin \
+        libxmlrpc-epi0 \
     && rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 # https://gha-cache-server.falcondev.io/getting-started#binary-patch
